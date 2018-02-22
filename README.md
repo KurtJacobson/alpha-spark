@@ -19,3 +19,9 @@ Chang-Rosenblum type alpha particle detector.
   * Andrew Jones
   * Christina Kirby
   * Kurt Jacobson
+
+
+## Advisors
+
+  * Dr. Eduardo B. Farfan
+  * Dr. Sandip Das
