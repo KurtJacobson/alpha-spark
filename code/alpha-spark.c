@@ -6,21 +6,20 @@ int main(void)
 {
     wiringPiSetupGpio();
 
-    pinMode(17, INPUT);
-    digitalWrite(17,HIGH);
+    pinMode(27, INPUT);
+    digitalWrite(27,HIGH);
 
     int count = 0;
     int countPerSec = 0;
-    int countPerMinute = 0;
+    float countPerMinute = 0;
     int timePreviousPrint = 0;
     int lastRead = 0;
     char time[10];
     char fName[15];
 
 
-    printf(Input save to filename: );
+    printf("Input save to filename:" );
     fgets(fName,15,stdin);
-    fName=fname +".txt";
     FILE *fp;
     fp=fopen(fName,"w");
     fprintf(fp , "TIME\tcpm\n");
@@ -42,28 +41,29 @@ int main(void)
             timePreviousPrint= millis();
             countPerSec = countPerSec;
             printf("%d\t%d\n", (millis()-startTime+1000)/1000 , countPerSec);
-                    fprintf(fp, "%d\t%d\n", (millis()-startTime+1000)/1000 , countPerSec);
+            fprintf(fp, "%d\t%d\n", (millis()-startTime+1000)/1000 , countPerSec);
             countPerSec = 0;
         }
 
-        if (digitalRead(17)==LOW && lastRead==1)
+        if (digitalRead(27)==LOW && lastRead==1)
         {
             count++;
             countPerSec++;
             lastRead=0;
         }
 
-        else if (digitalRead(17)==HIGH)
+        else if (digitalRead(27)==HIGH)
         {
             lastRead=1;
         }
 
     }
 
-    countPerMinute = count*(60/timeInt);
-    printf("Avg cpm was: %d \n", countPerMinute);
-        //fprintf(fp, "Avg cpm = %d \n", countPerMinute);
-        fclose(fp);
+    printf("\n count= %d   timeInt= %d" , count, timeInt);
+    countPerMinute = count*(60.0F/timeInt);
+    printf("\nAvg cpm was: %f \n", countPerMinute);
+    //fprintf(fp, "Avg cpm = %d \n", countPerMinute);
+    fclose(fp);
 
     return 0;
 
@@ -71,4 +71,3 @@ int main(void)
 
 //Notes: compile command: gcc -Wall -lwiringPi kurt2.c -o kurt2
 // to run program: sudo ./kurt2
-
