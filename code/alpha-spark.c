@@ -10,10 +10,11 @@ int main(void)
     digitalWrite(27,HIGH);
 
     int count = 0;
+    int startTime = 0;
     int countPerSec = 0;
-    float countPerMinute = 0;
     int timePreviousPrint = 0;
     int lastRead = 0;
+    float countPerMinute = 0;
     char time[10];
     char fName[15];
 
@@ -32,14 +33,14 @@ int main(void)
     int timeInt = atoi(time);
 
     int startTime = millis();
+    timePreviousPrint= millis();
 
-    while(millis()-startTime < timeInt*1000)
+    while(millis()-startTime <= timeInt*1000)
     {
 
-        if (millis()-timePreviousPrint > 1000)
+        if (millis()-timePreviousPrint >= 1000)
         {
-            timePreviousPrint= millis();
-            countPerSec = countPerSec;
+            timePreviousPrint = millis();
             printf("%d\t%d\n", (millis()-startTime+1000)/1000 , countPerSec);
             fprintf(fp, "%d\t%d\n", (millis()-startTime+1000)/1000 , countPerSec);
             countPerSec = 0;
@@ -62,7 +63,6 @@ int main(void)
     printf("\n count= %d   timeInt= %d" , count, timeInt);
     countPerMinute = count*(60.0F/timeInt);
     printf("\nAvg cpm was: %f \n", countPerMinute);
-    //fprintf(fp, "Avg cpm = %d \n", countPerMinute);
     fclose(fp);
 
     return 0;
